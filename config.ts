@@ -22,7 +22,7 @@ postcss([
 /**
  * server bundle
  */
-server("./scr_server/**/*.ts", true, {
+server("./scr_server/**/*.ts", false, true, {
   color: true,
   define: {
     "process.env.NODE_ENV": '"development"',
@@ -42,7 +42,7 @@ server("./scr_server/**/*.ts", true, {
 /**
  * client bundle
  */
-client("./scr_client/**/*.ts", {
+client("./scr_client/**/*.ts", false, {
   color: true,
   define: {
     "process.env.NODE_ENV": '"development"',

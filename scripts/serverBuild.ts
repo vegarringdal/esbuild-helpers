@@ -32,35 +32,37 @@ function runNodeApp(launchJs: string, nodeArgs?: nodeArg) {
 
 export async function server(
   watch: string,
+  production: Boolean,
   startNodejs: boolean,
   esbuildConfig: BuildOptions,
   nodeArgs?: nodeArg
 ) {
   const builder = await build(esbuildConfig);
 
-  chokidar.watch(watch, {}).on("change", async (eventName, path) => {
-    const msg = `client file changed ${eventName}`;
-    log(msg);
+  if (!production) {
+    chokidar.watch(watch, {}).on("change", async (eventName, path) => {
+      const msg = `client file changed ${eventName}`;
+      log(msg);
 
-    // rebuild only be if incremental config
-    if (builder.rebuild) {
-      return builder.rebuild().then(() => {
-        if (childSpawn) {
-          childSpawn.kill();
-        }
+      // rebuild only be if incremental config
+      if (builder.rebuild) {
+        return builder.rebuild().then(() => {
+          if (childSpawn) {
+            childSpawn.kill();
+          }
 
-        if (esbuildConfig.outfile && startNodejs) {
-          runNodeApp(esbuildConfig.outfile);
-        }
+          if (esbuildConfig.outfile && startNodejs) {
+            runNodeApp(esbuildConfig.outfile);
+          }
 
-        callWebsocketClient(msg);
-      });
-    } else {
-      // no increment, then we just build it
-      return build(esbuildConfig);
-    }
-  });
-
+          callWebsocketClient(msg);
+        });
+      } else {
+        // no increment, then we just build it
+        return build(esbuildConfig);
+      }
+    });
+  }
   if (esbuildConfig.outfile && startNodejs) {
     runNodeApp(esbuildConfig.outfile, nodeArgs);
   }

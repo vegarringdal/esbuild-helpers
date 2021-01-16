@@ -12,55 +12,53 @@ clearFolders("dist_client", "dist_server");
  * build our tailwind
  * this is slow, but rearly rebuild, so ok for now
  */
+//@ts-ignore
+process.env.PRODUCTION = true;
 postcss([
   "./scr_client/tailwind.css",
   "-o",
   "./dist_client/tailwind.css",
-  "-w",
 ]);
 
 /**
  * server bundle
  */
-server(
-  "./scr_server/**/*.ts",
-  false, 
-  true,
-  {
-    color: true,
-    define: {
-      "process.env.NODE_ENV": '"development"',
-    },
-    entryPoints: ["./scr_server/index.ts"],
-    outfile: "./dist_server/index.js",
-    minify: false,
-    target: "node14",
-    bundle: true,
-    external: ["express"],
-    platform: "node",
-    sourcemap: true,
-    logLevel: "error",
-    incremental: true,
-  },
-  { argsBefore: ["--inspect-brk"] }
-);
-
-/**
- * client bundle
- */
-client("./scr_client/**/*.ts", false, {
+server("./scr_server/**/*.ts", true, false, {
   color: true,
   define: {
     "process.env.NODE_ENV": '"development"',
   },
+  entryPoints: ["./scr_server/index.ts"],
+  outfile: "./dist_server/index.js",
+  minify: true,
+  target: "node14",
+  bundle: true,
+  external: ["express"],
+  platform: "node",
+  sourcemap: false,
+  logLevel: "error",
+  incremental: false,
+});
+
+/**
+ * client bundle
+ */
+client("./scr_client/**/*.ts", true, {
+  color: true,
+  define: {
+    "process.env.NODE_ENV": '"production"',
+  },
   entryPoints: ["./scr_client/index.ts"],
-  outfile: "./dist_client/index.js",
-  minify: false,
+  //outfile: "./dist_client/index.js",
+  format:"esm",
+  outdir:"./dist_client",
+  minify: true,
   bundle: true,
   platform: "browser",
-  sourcemap: true,
+  sourcemap: false,
+  splitting: true,
   logLevel: "error",
-  incremental: true,
+  incremental: false,
 });
 
 /**
@@ -69,7 +67,7 @@ client("./scr_client/**/*.ts", false, {
 addDefaultIndex(
   "dist_client",
   "./index.js",
-  true,
+  false,
   8080,
   /*html*/ `<!DOCTYPE html>
     <html lang="en">

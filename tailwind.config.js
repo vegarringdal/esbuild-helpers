@@ -1,6 +1,7 @@
+
 module.exports = {
   purge: {
-    enabled: false,
+    enabled: process.env.PRODUCTION,
     content: ["./scr_client/**/*.ts"],
   },
   darkMode: false, // or 'media' or 'class'

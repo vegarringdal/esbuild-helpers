@@ -4,6 +4,7 @@
   "description": "experiment with skipping traditional bundlers",
   "scripts": {
     "start": "ts-node config",
+    "prod": "ts-node config_prod && node ./dist_server/index.js",
     "debug-node": "ts-node config_debug_node"
   },
   "keywords": [],
