@@ -12,7 +12,7 @@ function runNodeApp(launchJs: string, nodeArgs?: nodeArg) {
     childSpawn = spawn(cmd, args, {
       stdio: "inherit",
       cwd: process.cwd(),
-      env: process.env
+      env: process.env,
     });
     childSpawn.on("exit", function (code: number) {
       log(`\nNode app failed:${code}\n`);
@@ -28,7 +28,7 @@ function runNodeApp(launchJs: string, nodeArgs?: nodeArg) {
     args = args.concat(nodeArgs.argsBefore);
   }
 
-  spawner(process.platform === "win32" ? "node.exe" : "node", args);
+  spawner("node", args);
 }
 
 export async function nodejs(
@@ -49,7 +49,7 @@ export async function nodejs(
       if (builder.rebuild) {
         return builder.rebuild().then(() => {
           if (childSpawn) {
-            childSpawn.kill('SIGINT');
+            childSpawn.kill("SIGINT");
           }
 
           if (esbuildConfig.outfile && startNodejs) {

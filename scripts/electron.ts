@@ -9,7 +9,7 @@ type eletronArg = { argsBefore?: string[]; argsAfter?: string[] };
 
 function runElectronApp(launchJs: string, electronArgs?: eletronArg) {
   function spawner(cmd: string, args: string[]) {
-    childSpawn = spawn(cmd, args, {
+    childSpawn = spawn(cmd, ['./node_modules/electron/cli.js', ...args], {
       stdio: "ignore",
       cwd: process.cwd(),
       env: process.env
@@ -27,8 +27,8 @@ function runElectronApp(launchJs: string, electronArgs?: eletronArg) {
   if (electronArgs && electronArgs.argsBefore) {
     args = args.concat(electronArgs.argsBefore);
   }
-
-  spawner(process.platform === "win32" ? "electron.cmd" : "electron", args);
+  // "./node_modules/electron/dist/electron.exe"
+  spawner("node", args);
 }
 
 export async function electron(
@@ -48,7 +48,7 @@ export async function electron(
       // rebuild only be if incremental config
       if (builder.rebuild) {
         if (childSpawn) {
-          childSpawn.kill();
+          childSpawn.kill('SIGINT');
         }
         return builder.rebuild().then(() => {
           if (esbuildConfig.outfile && startNodejs) {
