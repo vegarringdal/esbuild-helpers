@@ -13,6 +13,17 @@
             "restart": true, 
             "smartStep": true,
             "sourceMaps": true
-        }
+        },
+        {
+            /*
+            * run "npm start" then start this and you can debug client side in vscode
+            * you need extensions installed and chrome
+            */
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome against localhost",
+            "url": "http://localhost",
+            "webRoot": "${workspaceFolder}//dist_client"
+          }
     ]
   }
