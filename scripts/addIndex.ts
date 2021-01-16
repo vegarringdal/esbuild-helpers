@@ -15,8 +15,8 @@ export function clearFolders(...folders: string[]) {
  * user template need to have $bundle tag in header, so we can inject code
  * @param distFolder
  * @param entry
- * @param hbr - hot bundle reload
- * @param webSocketPort
+ * @param hbr - hot bundle reload, if false websocket server is not added/started
+ * @param webSocketPort HBR needs to be active for this to run
  * @param indexTemplate
  * @param userInjectOnHbr
  */
@@ -60,7 +60,7 @@ export function addDefaultIndex(
         });
 
         ws.addEventListener("message", function (event) {
-          ${userInjectOnHbr ? userInjectOnHbr : ""}
+          ${userInjectOnHbr && hbr? userInjectOnHbr : ""}
           
           version++;
           import("${entry}?v=" + version);
