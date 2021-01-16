@@ -24,12 +24,12 @@ postcss([
  */
 nodejs(
   "./src_nodejs/**/*.ts",
-  false, 
+  false,
   true,
   {
     color: true,
     define: {
-      "process.env.NODE_ENV": '"development"',
+      "DEVELOPMENT": "true",
     },
     entryPoints: ["./src_nodejs/index.ts"],
     outfile: "./dist_nodejs/index.js",
@@ -51,7 +51,7 @@ nodejs(
 client("./src_client/**/*.ts", false, {
   color: true,
   define: {
-    "process.env.NODE_ENV": '"development"',
+    "DEVELOPMENT": "true",
   },
   entryPoints: ["./src_client/index.ts"],
   outfile: "./dist_client/index.js",

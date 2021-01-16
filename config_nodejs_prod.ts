@@ -14,11 +14,7 @@ clearFolders("dist_client", "dist_nodejs");
  */
 //@ts-ignore
 process.env.PRODUCTION = true;
-postcss([
-  "./src_client/tailwind.css",
-  "-o",
-  "./dist_client/tailwind.css",
-]);
+postcss(["./src_client/tailwind.css", "-o", "./dist_client/tailwind.css"]);
 
 /**
  * nodejs bundle
@@ -26,7 +22,7 @@ postcss([
 nodejs("./src_nodejs/**/*.ts", true, false, {
   color: true,
   define: {
-    "process.env.NODE_ENV": '"development"',
+    "DEVELOPMENT": "false",
   },
   entryPoints: ["./src_nodejs/index.ts"],
   outfile: "./dist_nodejs/index.js",
@@ -46,19 +42,21 @@ nodejs("./src_nodejs/**/*.ts", true, false, {
 client("./src_client/**/*.ts", true, {
   color: true,
   define: {
-    "process.env.NODE_ENV": '"production"',
+    "DEVELOPMENT": "false",
   },
   entryPoints: ["./src_client/index.ts"],
   //outfile: "./dist_client/index.js",
-  format:"esm",
-  outdir:"./dist_client",
+  format: "esm",
+  outdir: "./dist_client",
   minify: true,
   bundle: true,
+  target: "es2018",
   platform: "browser",
   sourcemap: false,
   splitting: true,
   logLevel: "error",
   incremental: false,
+  treeShaking: true,
 });
 
 /**

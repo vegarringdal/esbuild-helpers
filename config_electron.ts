@@ -25,7 +25,7 @@ postcss([
 electron("./src_electron_main/**/*.ts", false, true, {
   color: true,
   define: {
-    "process.env.NODE_ENV": '"development"',
+    "DEVELOPMENT": "true",
   },
   entryPoints: ["./src_electron_main/index.ts"],
   outfile: "./dist_electron_main/index.js",
@@ -45,7 +45,7 @@ electron("./src_electron_main/**/*.ts", false, true, {
 client("./src_client/**/*.ts", false, {
   color: true,
   define: {
-    "process.env.NODE_ENV": '"development"',
+    "DEVELOPMENT": "true",
   },
   entryPoints: ["./src_client/index.ts"],
   outfile: "./dist_client/index.js",
