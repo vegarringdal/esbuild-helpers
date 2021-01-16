@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            /*
+            * Use the "npm run debug-node" to try this
+            */
+            "name": "Debug node server instance",
+            "type": "node",
+            "request": "attach",
+            "stopOnEntry": false,
+            "port": 9229,
+            "restart": true, 
+            "smartStep": true,
+            "sourceMaps": true
+        }
+    ]
+  }

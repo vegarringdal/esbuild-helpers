@@ -22,22 +22,27 @@ postcss([
 /**
  * server bundle
  */
-server("./scr_server/**/*.ts", true, {
-  color: true,
-  define: {
-    "process.env.NODE_ENV": '"development"',
+server(
+  "./scr_server/**/*.ts",
+  true,
+  {
+    color: true,
+    define: {
+      "process.env.NODE_ENV": '"development"',
+    },
+    entryPoints: ["./scr_server/index.ts"],
+    outfile: "./dist_server/index.js",
+    minify: false,
+    target: "node14",
+    bundle: true,
+    external: ["express"],
+    platform: "node",
+    sourcemap: true,
+    logLevel: "error",
+    incremental: true,
   },
-  entryPoints: ["./scr_server/index.ts"],
-  outfile: "./dist_server/index.js",
-  minify: false,
-  target: "node14",
-  bundle: true,
-  external: ["express"],
-  platform: "node",
-  sourcemap: true,
-  logLevel: "error",
-  incremental: true,
-});
+  { argsBefore: ["--inspect-brk"] }
+);
 
 /**
  * client bundle

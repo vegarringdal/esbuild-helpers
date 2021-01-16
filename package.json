@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "experiment with skipping traditional bundlers",
   "scripts": {
-    "start": "ts-node config"
+    "start": "ts-node config",
+    "debug-node": "ts-node config_debug_node"
   },
   "keywords": [],
   "author": "Vegar Ringdal",
