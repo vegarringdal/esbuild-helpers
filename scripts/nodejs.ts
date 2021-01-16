@@ -12,6 +12,7 @@ function runNodeApp(launchJs: string, nodeArgs?: nodeArg) {
     childSpawn = spawn(cmd, args, {
       stdio: "inherit",
       cwd: process.cwd(),
+      env: process.env
     });
     childSpawn.on("exit", function (code: number) {
       log(`\nNode app failed:${code}\n`);

@@ -12,6 +12,7 @@ function runElectronApp(launchJs: string, electronArgs?: eletronArg) {
     childSpawn = spawn(cmd, args, {
       stdio: "ignore",
       cwd: process.cwd(),
+      env: process.env
     });
     childSpawn.on("exit", function (code: number) {
       log(`\nElectron app failed:${code}\n`);
