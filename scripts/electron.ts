@@ -5,37 +5,37 @@ import chokidar from "chokidar";
 import { log } from "./log";
 
 let childSpawn: any;
-type nodeArg = { argsBefore?: string[]; argsAfter?: string[] };
+type eletronArg = { argsBefore?: string[]; argsAfter?: string[] };
 
-function runNodeApp(launchJs: string, nodeArgs?: nodeArg) {
+function runElectronApp(launchJs: string, electronArgs?: eletronArg) {
   function spawner(cmd: string, args: string[]) {
     childSpawn = spawn(cmd, args, {
-      stdio: "inherit",
+      stdio: "ignore",
       cwd: process.cwd(),
     });
     childSpawn.on("exit", function (code: number) {
-      log(`\nNode app failed:${code}\n`);
+      log(`\nElectron app failed:${code}\n`);
     });
   }
 
   let args = [launchJs];
-  if (nodeArgs && nodeArgs.argsBefore) {
-    args = nodeArgs.argsBefore.concat(args);
+  if (electronArgs && electronArgs.argsBefore) {
+    args = electronArgs.argsBefore.concat(args);
   }
 
-  if (nodeArgs && nodeArgs.argsBefore) {
-    args = args.concat(nodeArgs.argsBefore);
+  if (electronArgs && electronArgs.argsBefore) {
+    args = args.concat(electronArgs.argsBefore);
   }
 
-  spawner(process.platform === "win32" ? "node.exe" : "node", args);
+  spawner(process.platform === "win32" ? "electron.cmd" : "electron", args);
 }
 
-export async function server(
+export async function electron(
   watch: string,
   production: Boolean,
   startNodejs: boolean,
   esbuildConfig: BuildOptions,
-  nodeArgs?: nodeArg
+  nodeArgs?: eletronArg
 ) {
   const builder = await build(esbuildConfig);
 
@@ -46,13 +46,12 @@ export async function server(
 
       // rebuild only be if incremental config
       if (builder.rebuild) {
+        if (childSpawn) {
+          childSpawn.kill();
+        }
         return builder.rebuild().then(() => {
-          if (childSpawn) {
-            childSpawn.kill();
-          }
-
           if (esbuildConfig.outfile && startNodejs) {
-            runNodeApp(esbuildConfig.outfile);
+            runElectronApp(esbuildConfig.outfile);
           }
 
           callWebsocketClient(msg);
@@ -64,6 +63,6 @@ export async function server(
     });
   }
   if (esbuildConfig.outfile && startNodejs) {
-    runNodeApp(esbuildConfig.outfile, nodeArgs);
+    runElectronApp(esbuildConfig.outfile, nodeArgs);
   }
 }

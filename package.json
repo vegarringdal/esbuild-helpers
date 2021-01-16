@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "experiment with skipping traditional bundlers",
   "scripts": {
-    "start": "ts-node config",
-    "prod": "ts-node config_prod && node ./dist_server/index.js",
-    "debug-node": "ts-node config_debug_node"
+    "nodejs:dev": "ts-node config_nodejs",
+    "nodejs:prod": "ts-node config_nodejs_prod",
+    "nodejs:prod:run": "ts-node config_nodejs_prod && node ./dist_nodejs/index.js",
+    "nodejs:debug": "ts-node config_nodejs_debug",
+    "electron:dev": "ts-node config_electron"
   },
   "keywords": [],
   "author": "Vegar Ringdal",
@@ -25,6 +27,8 @@
     "autoprefixer": "^10.2.1",
     "chokidar": "^3.5.1",
     "custom-elements-hmr-polyfill": "^1.0.3",
+    "electron": "^11.2.0",
+    "electron-squirrel-startup": "^1.0.0",
     "esbuild": "^0.8.32",
     "lit-html": "^1.3.0",
     "postcss": "^8.2.4",

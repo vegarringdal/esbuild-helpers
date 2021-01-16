@@ -1,12 +1,12 @@
 import {
   clearFolders,
   addDefaultIndex,
-  server,
+  nodejs,
   client,
   postcss,
 } from "./scripts/exported";
 
-clearFolders("dist_client", "dist_server");
+clearFolders("dist_client", "dist_nodejs");
 
 /**
  * build our tailwind
@@ -20,24 +20,30 @@ postcss([
 ]);
 
 /**
- * server bundle
+ * nodejs bundle
  */
-server("./src_server/**/*.ts", false, true, {
-  color: true,
-  define: {
-    "process.env.NODE_ENV": '"development"',
+nodejs(
+  "./src_nodejs/**/*.ts",
+  false, 
+  true,
+  {
+    color: true,
+    define: {
+      "process.env.NODE_ENV": '"development"',
+    },
+    entryPoints: ["./src_nodejs/index.ts"],
+    outfile: "./dist_nodejs/index.js",
+    minify: false,
+    target: "node14",
+    bundle: true,
+    external: ["express"],
+    platform: "node",
+    sourcemap: true,
+    logLevel: "error",
+    incremental: true,
   },
-  entryPoints: ["./src_server/index.ts"],
-  outfile: "./dist_server/index.js",
-  minify: false,
-  target: "node14",
-  bundle: true,
-  external: ["express"],
-  platform: "node",
-  sourcemap: true,
-  logLevel: "error",
-  incremental: true,
-});
+  { argsBefore: ["--inspect-brk"] }
+);
 
 /**
  * client bundle

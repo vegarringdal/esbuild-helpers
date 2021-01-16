@@ -1,12 +1,12 @@
 import {
   clearFolders,
   addDefaultIndex,
-  server,
+  electron,
   client,
   postcss,
 } from "./scripts/exported";
 
-clearFolders("dist_client", "dist_server");
+clearFolders("dist_client", "dist_electron_main");
 
 /**
  * build our tailwind
@@ -22,28 +22,22 @@ postcss([
 /**
  * server bundle
  */
-server(
-  "./src_server/**/*.ts",
-  false, 
-  true,
-  {
-    color: true,
-    define: {
-      "process.env.NODE_ENV": '"development"',
-    },
-    entryPoints: ["./src_server/index.ts"],
-    outfile: "./dist_server/index.js",
-    minify: false,
-    target: "node14",
-    bundle: true,
-    external: ["express"],
-    platform: "node",
-    sourcemap: true,
-    logLevel: "error",
-    incremental: true,
+electron("./src_electron_main/**/*.ts", false, true, {
+  color: true,
+  define: {
+    "process.env.NODE_ENV": '"development"',
   },
-  { argsBefore: ["--inspect-brk"] }
-);
+  entryPoints: ["./src_electron_main/index.ts"],
+  outfile: "./dist_electron_main/index.js",
+  minify: false,
+  target: "node14",
+  bundle: true,
+  external: ["express", "electron"],
+  platform: "node",
+  sourcemap: true,
+  logLevel: "error",
+  incremental: true,
+});
 
 /**
  * client bundle

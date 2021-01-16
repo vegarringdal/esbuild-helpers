@@ -1,12 +1,12 @@
 import {
   clearFolders,
   addDefaultIndex,
-  server,
+  nodejs,
   client,
   postcss,
 } from "./scripts/exported";
 
-clearFolders("dist_client", "dist_server");
+clearFolders("dist_client", "dist_nodejs");
 
 /**
  * build our tailwind
@@ -21,15 +21,15 @@ postcss([
 ]);
 
 /**
- * server bundle
+ * nodejs bundle
  */
-server("./src_server/**/*.ts", true, false, {
+nodejs("./src_nodejs/**/*.ts", true, false, {
   color: true,
   define: {
     "process.env.NODE_ENV": '"development"',
   },
-  entryPoints: ["./src_server/index.ts"],
-  outfile: "./dist_server/index.js",
+  entryPoints: ["./src_nodejs/index.ts"],
+  outfile: "./dist_nodejs/index.js",
   minify: true,
   target: "node14",
   bundle: true,
