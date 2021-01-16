@@ -1,2 +1,2 @@
 # esbuild_testing
-esperiment with skipping traditional bundles, I need bundle reload without hard reload
+experiment with skipping traditional bundlers, I need bundle reload without hard reload
