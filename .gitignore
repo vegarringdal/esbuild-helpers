@@ -1,4 +1,4 @@
 node_modules
 dist_client
 dist_nodejs
-dist_electron
+dist_electron_main
