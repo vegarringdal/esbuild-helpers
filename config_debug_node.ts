@@ -13,7 +13,7 @@ clearFolders("dist_client", "dist_server");
  * this is slow, but rearly rebuild, so ok for now
  */
 postcss([
-  "./scr_client/tailwind.css",
+  "./src_client/tailwind.css",
   "-o",
   "./dist_client/tailwind.css",
   "-w",
@@ -23,7 +23,7 @@ postcss([
  * server bundle
  */
 server(
-  "./scr_server/**/*.ts",
+  "./src_server/**/*.ts",
   false, 
   true,
   {
@@ -31,7 +31,7 @@ server(
     define: {
       "process.env.NODE_ENV": '"development"',
     },
-    entryPoints: ["./scr_server/index.ts"],
+    entryPoints: ["./src_server/index.ts"],
     outfile: "./dist_server/index.js",
     minify: false,
     target: "node14",
@@ -48,12 +48,12 @@ server(
 /**
  * client bundle
  */
-client("./scr_client/**/*.ts", false, {
+client("./src_client/**/*.ts", false, {
   color: true,
   define: {
     "process.env.NODE_ENV": '"development"',
   },
-  entryPoints: ["./scr_client/index.ts"],
+  entryPoints: ["./src_client/index.ts"],
   outfile: "./dist_client/index.js",
   minify: false,
   bundle: true,

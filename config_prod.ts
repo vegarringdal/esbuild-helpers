@@ -15,7 +15,7 @@ clearFolders("dist_client", "dist_server");
 //@ts-ignore
 process.env.PRODUCTION = true;
 postcss([
-  "./scr_client/tailwind.css",
+  "./src_client/tailwind.css",
   "-o",
   "./dist_client/tailwind.css",
 ]);
@@ -23,12 +23,12 @@ postcss([
 /**
  * server bundle
  */
-server("./scr_server/**/*.ts", true, false, {
+server("./src_server/**/*.ts", true, false, {
   color: true,
   define: {
     "process.env.NODE_ENV": '"development"',
   },
-  entryPoints: ["./scr_server/index.ts"],
+  entryPoints: ["./src_server/index.ts"],
   outfile: "./dist_server/index.js",
   minify: true,
   target: "node14",
@@ -43,12 +43,12 @@ server("./scr_server/**/*.ts", true, false, {
 /**
  * client bundle
  */
-client("./scr_client/**/*.ts", true, {
+client("./src_client/**/*.ts", true, {
   color: true,
   define: {
     "process.env.NODE_ENV": '"production"',
   },
-  entryPoints: ["./scr_client/index.ts"],
+  entryPoints: ["./src_client/index.ts"],
   //outfile: "./dist_client/index.js",
   format:"esm",
   outdir:"./dist_client",
