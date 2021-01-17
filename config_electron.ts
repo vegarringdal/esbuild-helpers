@@ -4,7 +4,7 @@ import {
   electron,
   client,
   postcss,
-  makeAllPackagesExternalPlugin
+  makeAllPackagesExternalPlugin,
 } from "./scripts/exported";
 
 clearFolders("dist_client", "dist_electron_main");
@@ -26,14 +26,14 @@ postcss([
 electron("./src_electron_main/**/*.ts", false, true, {
   color: true,
   define: {
-    "DEVELOPMENT": "true",
+    DEVELOPMENT: "true",
   },
   entryPoints: ["./src_electron_main/index.ts"],
   outfile: "./dist_electron_main/index.js",
   minify: false,
   target: "node14",
   bundle: true,
-  plugins:[makeAllPackagesExternalPlugin],
+  plugins: [makeAllPackagesExternalPlugin],
   platform: "node",
   sourcemap: true,
   logLevel: "error",
@@ -46,7 +46,7 @@ electron("./src_electron_main/**/*.ts", false, true, {
 client("./src_client/**/*.ts", false, {
   color: true,
   define: {
-    "DEVELOPMENT": "true",
+    DEVELOPMENT: "true",
   },
   entryPoints: ["./src_client/index.ts"],
   outfile: "./dist_client/index.js",

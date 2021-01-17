@@ -4,7 +4,7 @@ import {
   nodejs,
   client,
   postcss,
-  makeAllPackagesExternalPlugin
+  makeAllPackagesExternalPlugin,
 } from "./scripts/exported";
 
 clearFolders("dist_client", "dist_nodejs");
@@ -30,14 +30,14 @@ nodejs(
   {
     color: true,
     define: {
-      "DEVELOPMENT": "true",
+      DEVELOPMENT: "true",
     },
     entryPoints: ["./src_nodejs/index.ts"],
     outfile: "./dist_nodejs/index.js",
     minify: false,
     target: "node14",
     bundle: true,
-    plugins:[makeAllPackagesExternalPlugin],
+    plugins: [makeAllPackagesExternalPlugin],
     platform: "node",
     sourcemap: true,
     logLevel: "error",
@@ -52,7 +52,7 @@ nodejs(
 client("./src_client/**/*.ts", false, {
   color: true,
   define: {
-    "DEVELOPMENT": "true",
+    DEVELOPMENT: "true",
   },
   entryPoints: ["./src_client/index.ts"],
   outfile: "./dist_client/index.js",
