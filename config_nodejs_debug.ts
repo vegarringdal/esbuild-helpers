@@ -4,6 +4,7 @@ import {
   nodejs,
   client,
   postcss,
+  makeAllPackagesExternalPlugin
 } from "./scripts/exported";
 
 clearFolders("dist_client", "dist_nodejs");
@@ -36,7 +37,7 @@ nodejs(
     minify: false,
     target: "node14",
     bundle: true,
-    external: ["express"],
+    plugins:[makeAllPackagesExternalPlugin],
     platform: "node",
     sourcemap: true,
     logLevel: "error",

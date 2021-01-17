@@ -4,6 +4,7 @@ import {
   electron,
   client,
   postcss,
+  makeAllPackagesExternalPlugin
 } from "./scripts/exported";
 
 clearFolders("dist_client", "dist_electron_main");
@@ -32,7 +33,7 @@ electron("./src_electron_main/**/*.ts", false, true, {
   minify: false,
   target: "node14",
   bundle: true,
-  external: ["express", "electron"],
+  plugins:[makeAllPackagesExternalPlugin],
   platform: "node",
   sourcemap: true,
   logLevel: "error",
