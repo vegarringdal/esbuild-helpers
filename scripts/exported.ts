@@ -7,3 +7,4 @@ export { postcss } from "./postcss";
 export { electron } from "./electron";
 export { makeAllPackagesExternalPlugin } from "./makeAllPackagesExternalPlugin";
 export { minifyHTMLLiteralsPlugin } from "./minifyHTMLLiteralsPlugin";
+export { postcssPlugin } from "./postCSSplugin";

@@ -3,9 +3,9 @@ import {
   addDefaultIndex,
   nodejs,
   client,
-  postcss,
   makeAllPackagesExternalPlugin,
   minifyHTMLLiteralsPlugin,
+  postcssPlugin,
 } from "./scripts/exported";
 
 clearFolders("dist_client", "dist_nodejs");
@@ -16,7 +16,6 @@ clearFolders("dist_client", "dist_nodejs");
  */
 //@ts-ignore
 process.env.PRODUCTION = true;
-postcss(["./src_client/tailwind.css", "-o", "./dist_client/tailwind.css"]);
 
 /**
  * nodejs bundle
@@ -47,7 +46,15 @@ client("./src_client/**/*.ts", true, {
   //outfile: "./dist_client/index.js",
   format: "esm",
   outdir: "./dist_client",
-  plugins: [minifyHTMLLiteralsPlugin()],
+  plugins: [
+    postcssPlugin([
+      require("tailwindcss")("./tailwind.config.js"),
+      require("autoprefixer"),
+    ]),
+    require("cssnano")({
+      preset: "default",
+    }),
+  ],
   minify: true,
   bundle: true,
   target: "es2018",
