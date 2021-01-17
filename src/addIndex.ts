@@ -46,7 +46,7 @@ export function addDefaultIndex(
       let connected = false;
 
       const websocketConnection = function () {
-        const ws = new WebSocket("ws://localhost:8080");
+        const ws = new WebSocket("ws://localhost:${webSocketPort}");
 
         ws.addEventListener("open", function () {
           connected = true;
