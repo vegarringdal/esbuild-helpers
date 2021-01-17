@@ -9,6 +9,7 @@ export async function client(
   esbuildConfig: BuildOptions
 ) {
   const builder = await build(esbuildConfig);
+  log(`client build done: ${esbuildConfig?.outfile || esbuildConfig?.outdir}`);
 
   if (!production) {
     chokidar.watch(watch, {}).on("change", (eventName, path) => {

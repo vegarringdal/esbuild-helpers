@@ -9,10 +9,10 @@ type eletronArg = { argsBefore?: string[]; argsAfter?: string[] };
 
 function runElectronApp(launchJs: string, electronArgs?: eletronArg) {
   function spawner(cmd: string, args: string[]) {
-    childSpawn = spawn(cmd, ['./node_modules/electron/cli.js', ...args], {
+    childSpawn = spawn(cmd, ["./node_modules/electron/cli.js", ...args], {
       stdio: "ignore",
       cwd: process.cwd(),
-      env: process.env
+      env: process.env,
     });
     childSpawn.on("exit", function (code: number) {
       log(`\nElectron app failed:${code}\n`);
@@ -39,6 +39,9 @@ export async function electron(
   nodeArgs?: eletronArg
 ) {
   const builder = await build(esbuildConfig);
+  log(
+    `electron build done: ${esbuildConfig?.outfile || esbuildConfig?.outdir}`
+  );
 
   if (!production) {
     chokidar.watch(watch, {}).on("change", async (eventName, path) => {
@@ -48,7 +51,7 @@ export async function electron(
       // rebuild only be if incremental config
       if (builder.rebuild) {
         if (childSpawn) {
-          childSpawn.kill('SIGINT');
+          childSpawn.kill("SIGINT");
         }
         return builder.rebuild().then(() => {
           if (esbuildConfig.outfile && startNodejs) {

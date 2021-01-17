@@ -39,6 +39,7 @@ export async function nodejs(
   nodeArgs?: nodeArg
 ) {
   const builder = await build(esbuildConfig);
+  log(`nodejs build done: ${esbuildConfig?.outfile || esbuildConfig?.outdir}`);
 
   if (!production) {
     chokidar.watch(watch, {}).on("change", async (eventName, path) => {
