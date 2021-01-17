@@ -1,5 +1,7 @@
 import "./index.css";
 
+declare const DEVELOPMENT: boolean;
+
 if (DEVELOPMENT) {
   console.log("dev");
   const {
