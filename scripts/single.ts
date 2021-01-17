@@ -5,19 +5,23 @@ import { log } from "./log";
 
 export async function single(
   watch: string,
+  production: boolean,
   esbuildConfig: BuildOptions,
   name = "single"
 ) {
   const builder = await build(esbuildConfig);
+  log(`${name} build done: ${esbuildConfig?.outfile || esbuildConfig?.outdir}`);
 
-  chokidar.watch(watch, {}).on("change", async (eventName, path) => {
-    const msg = `${single} file changed ${eventName}`;
-    log(msg);
+  if (!production) {
+    chokidar.watch(watch, {}).on("change", async (eventName) => {
+      const msg = `${name} file changed ${eventName}`;
+      log(msg);
 
-    if (builder.rebuild) {
-      return builder.rebuild().then(() => {
-        callWebsocketClient(msg);
-      });
-    }
-  });
+      if (builder.rebuild) {
+        return builder.rebuild().then(() => {
+          callWebsocketClient(msg);
+        });
+      }
+    });
+  }
 }

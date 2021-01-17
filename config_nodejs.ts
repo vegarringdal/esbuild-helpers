@@ -3,22 +3,27 @@ import {
   addDefaultIndex,
   nodejs,
   client,
-  postcss,
   makeAllPackagesExternalPlugin,
+  postcssPlugin,
+  single,
 } from "./scripts/exported";
 
 clearFolders("dist_client", "dist_nodejs");
 
 /**
- * build our tailwind
- * this is slow, but rearly rebuild, so ok for now
+ * css
  */
-postcss([
-  "./src_client/tailwind.css",
-  "-o",
-  "./dist_client/tailwind.css",
-  "-w",
-]);
+single("./src_client/**/*.ts", false, {
+  color: true,
+  define: {
+    DEVELOPMENT: "true",
+  },
+  entryPoints: ["./src_client/index.css"],
+  outfile: "./dist_client/index.css",
+  plugins: [postcssPlugin([require("tailwindcss")("./tailwind.config.js")])],
+  logLevel: "error",
+  incremental: true,
+});
 
 /**
  * nodejs bundle
@@ -73,7 +78,7 @@ addDefaultIndex(
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
         <link href="./index.css" rel="stylesheet" />
-        <link href="./tailwind.css" rel="stylesheet" />
+       
         $bundle
       </head>
       <body>

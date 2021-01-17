@@ -6,6 +6,7 @@ import {
   makeAllPackagesExternalPlugin,
   minifyHTMLLiteralsPlugin,
   postcssPlugin,
+  single,
 } from "./scripts/exported";
 
 clearFolders("dist_client", "dist_nodejs");
@@ -37,24 +38,37 @@ nodejs("./src_nodejs/**/*.ts", true, false, {
   incremental: false,
 });
 
+/**
+ * css
+ */
+single("./src_client/**/*.ts", true, {
+  color: true,
+  define: {
+    DEVELOPMENT: "true",
+  },
+  entryPoints: ["./src_client/index.css"],
+  outfile: "./dist_client/index.css",
+  plugins: [
+    postcssPlugin([
+      require("tailwindcss")("./tailwind.config.js"),
+      require("cssnano"),
+    ]),
+  ],
+  logLevel: "error",
+  incremental: true,
+});
+
 client("./src_client/**/*.ts", true, {
   color: true,
   define: {
     DEVELOPMENT: "false",
   },
   entryPoints: ["./src_client/index.ts"],
-  //outfile: "./dist_client/index.js",
   format: "esm",
   outdir: "./dist_client",
-  plugins: [
-    postcssPlugin([
-      require("tailwindcss")("./tailwind.config.js"),
-      require("autoprefixer"),
-      require('cssnano')
-    ])
-  ],
   minify: true,
   bundle: true,
+  plugins: [minifyHTMLLiteralsPlugin()],
   target: "es2018",
   platform: "browser",
   sourcemap: false,
@@ -79,7 +93,7 @@ addDefaultIndex(
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
         <link href="./index.css" rel="stylesheet" />
-        <link href="./tailwind.css" rel="stylesheet" />
+       
         $bundle
       </head>
       <body>

@@ -19,7 +19,7 @@ export default class extends HTMLElement {
   public render() {
     const form = formState.getValue();
     return html`
-      <nav class="flex bg-indigo-900  p-6">
+      <nav class="flex bg-indigo-800  p-6">
         ${navs("main").map((route: any) => {
           if (route.isNav) {
             return html`
