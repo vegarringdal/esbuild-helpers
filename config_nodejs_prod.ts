@@ -50,10 +50,8 @@ client("./src_client/**/*.ts", true, {
     postcssPlugin([
       require("tailwindcss")("./tailwind.config.js"),
       require("autoprefixer"),
-    ]),
-    require("cssnano")({
-      preset: "default",
-    }),
+      require('cssnano')
+    ])
   ],
   minify: true,
   bundle: true,

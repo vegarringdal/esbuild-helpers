@@ -29,9 +29,6 @@ export function postcssPlugin(plugins?: any[], options?: any) {
           } catch (e) {
             console.log(e, result);
           }
-
-          console.log(result)
-
           resolve({ contents: result.css, loader: "css" });
         });
       });
