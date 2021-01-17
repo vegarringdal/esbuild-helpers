@@ -1,8 +1,9 @@
 {
-  "name": "esbuild_testing",
-  "version": "1.0.0",
-  "description": "experiment with skipping traditional bundlers",
+  "name": "esbuild-helpers",
+  "version": "0.0.1-next1",
+  "description": "Simple helper lib to help make js bundles for web, nodejs server and electron",
   "scripts": {
+    "build": "tsc --project tsconfig-build.json",
     "nodejs:dev": "ts-node config_nodejs",
     "nodejs:prod": "ts-node config_nodejs_prod",
     "nodejs:prod:run": "ts-node config_nodejs_prod && node ./dist_nodejs/index.js",
@@ -13,10 +14,14 @@
   "author": "Vegar Ringdal",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1",
-    "ws": "^7.4.2"
+    "chokidar": "^3.5.1",
+    "esbuild": "^0.8.32",
+    "rimraf": "^3.0.2"
   },
+  "main": "dist/exported.js",
   "devDependencies": {
+    "express": "^4.17.1",
+    "ws": "^7.4.2",
     "@simple-html/core": "^3.1.2",
     "@simple-html/datasource": "^3.1.2",
     "@simple-html/grid": "^3.1.2",
@@ -26,17 +31,14 @@
     "@types/rimraf": "^3.0.0",
     "@types/ws": "^7.4.0",
     "autoprefixer": "^10.2.1",
-    "chokidar": "^3.5.1",
     "compression": "^1.7.4",
     "cssnano": "^4.1.10",
     "custom-elements-hmr-polyfill": "^1.0.3",
     "electron": "^11.2.0",
     "electron-squirrel-startup": "^1.0.0",
-    "esbuild": "^0.8.32",
     "lit-html": "^1.3.0",
     "minify-html-literals": "^1.3.2",
     "postcss": "^8.2.4",
-    "rimraf": "^3.0.2",
     "tailwindcss": "^2.0.2",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3",

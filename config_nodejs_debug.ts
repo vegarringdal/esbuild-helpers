@@ -6,7 +6,7 @@ import {
   makeAllPackagesExternalPlugin,
   single,
   postcssPlugin,
-} from "./scripts/exported";
+} from "./src/exported";
 
 clearFolders("dist_client", "dist_nodejs");
 

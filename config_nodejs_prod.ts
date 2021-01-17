@@ -7,7 +7,7 @@ import {
   minifyHTMLLiteralsPlugin,
   postcssPlugin,
   single,
-} from "./scripts/exported";
+} from "./src/exported";
 
 clearFolders("dist_client", "dist_nodejs");
 
