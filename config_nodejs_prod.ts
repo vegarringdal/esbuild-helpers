@@ -41,7 +41,7 @@ nodejs("./src_nodejs/**/*.ts", true, false, {
 /**
  * css
  */
-single("./src_client/**/*.ts", true, {
+single("./src_client/**/*.css", true, {
   color: true,
   define: {
     DEVELOPMENT: "true",

@@ -13,7 +13,7 @@ clearFolders("dist_client", "dist_electron_main");
 /**
  * css
  */
-single("./src_client/**/*.ts", false,{
+single("./src_client/**/*.css", false,{
   color: true,
   define: {
     DEVELOPMENT: "true",
