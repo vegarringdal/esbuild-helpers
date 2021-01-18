@@ -3,18 +3,22 @@ import { build, BuildOptions } from "esbuild";
 import chokidar from "chokidar";
 import { log } from "./log";
 
-export async function single(
-  watch: string,
-  production: boolean,
-  esbuildConfig: BuildOptions,
-  name = "single"
-) {
-  const builder = await build(esbuildConfig);
-  log(`${name} build done: ${esbuildConfig?.outfile || esbuildConfig?.outdir}`);
+type config = {
+  watch: string;
+  name?: string;
+};
 
-  if (!production) {
-    chokidar.watch(watch, {}).on("change", async (eventName) => {
-      const msg = `${name} file changed ${eventName}`;
+export async function single(config: config|null, esbuildConfig: BuildOptions) {
+  const builder = await build(esbuildConfig);
+  const _name = config && config.name || "single";
+
+  log(
+    `${_name} build done: ${esbuildConfig?.outfile || esbuildConfig?.outdir}`
+  );
+
+  if (config && config.watch) {
+    chokidar.watch(config.watch, {}).on("change", async (eventName) => {
+      const msg = `${_name} file changed ${eventName}`;
       log(msg);
 
       if (builder.rebuild) {

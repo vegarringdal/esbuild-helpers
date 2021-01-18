@@ -3,16 +3,17 @@ import { build, BuildOptions } from "esbuild";
 import { callWebsocketClient } from "./websocketServer";
 import { log } from "./log";
 
-export async function client(
-  watch: string,
-  production: boolean,
-  esbuildConfig: BuildOptions
-) {
+type config = {
+  watch: string;
+};
+
+
+export async function client(config: config | null, esbuildConfig: BuildOptions) {
   const builder = await build(esbuildConfig);
   log(`client build done: ${esbuildConfig?.outfile || esbuildConfig?.outdir}`);
 
-  if (!production) {
-    chokidar.watch(watch, {}).on("change", (eventName, path) => {
+  if (config && config.watch) {
+    chokidar.watch(config.watch, {}).on("change", (eventName, path) => {
       const msg = `client file changed ${eventName}`;
       log(msg);
 

@@ -31,18 +31,18 @@ function runNodeApp(launchJs: string, nodeArgs?: nodeArg) {
   spawner("node", args);
 }
 
-export async function nodejs(
-  watch: string,
-  production: Boolean,
-  startNodejs: boolean,
-  esbuildConfig: BuildOptions,
-  nodeArgs?: nodeArg
-) {
+type config = {
+  watch: string;
+  launch?: boolean;
+  launchArg?: nodeArg;
+};
+
+export async function nodejs(config: config | null, esbuildConfig: BuildOptions) {
   const builder = await build(esbuildConfig);
   log(`nodejs build done: ${esbuildConfig?.outfile || esbuildConfig?.outdir}`);
 
-  if (!production) {
-    chokidar.watch(watch, {}).on("change", async (eventName, path) => {
+  if (config && config.watch) {
+    chokidar.watch(config.watch, {}).on("change", async (eventName, path) => {
       const msg = `client file changed ${eventName}`;
       log(msg);
 
@@ -53,7 +53,7 @@ export async function nodejs(
             childSpawn.kill("SIGINT");
           }
 
-          if (esbuildConfig.outfile && startNodejs) {
+          if (esbuildConfig.outfile && config.launch) {
             runNodeApp(esbuildConfig.outfile);
           }
 
@@ -65,7 +65,7 @@ export async function nodejs(
       }
     });
   }
-  if (esbuildConfig.outfile && startNodejs) {
-    runNodeApp(esbuildConfig.outfile, nodeArgs);
+  if (esbuildConfig.outfile && config && config.launch) {
+    runNodeApp(esbuildConfig.outfile, config.launchArg);
   }
 }

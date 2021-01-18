@@ -11,17 +11,14 @@ import {
 
 clearFolders("dist_client", "dist_nodejs");
 
-/**
- * build our tailwind
- * this is slow, but rearly rebuild, so ok for now
- */
+
 //@ts-ignore
-process.env.PRODUCTION = true;
+process.env.PRODUCTION = true; // for tailwind..
 
 /**
  * nodejs bundle
  */
-nodejs("./src_nodejs/**/*.ts", true, false, {
+nodejs(null, {
   color: true,
   define: {
     DEVELOPMENT: "false",
@@ -38,10 +35,12 @@ nodejs("./src_nodejs/**/*.ts", true, false, {
   incremental: false,
 });
 
+
+
 /**
  * css
  */
-single("./src_client/**/*.css", true, {
+single(null, {
   color: true,
   define: {
     DEVELOPMENT: "true",
@@ -58,7 +57,7 @@ single("./src_client/**/*.css", true, {
   incremental: true,
 });
 
-client("./src_client/**/*.ts", true, {
+client(null, {
   color: true,
   define: {
     DEVELOPMENT: "false",
@@ -81,12 +80,11 @@ client("./src_client/**/*.ts", true, {
 /**
  * index file for project
  */
-addDefaultIndex(
-  "dist_client",
-  "./index.js",
-  false,
-  8080,
-  /*html*/ `<!DOCTYPE html>
+addDefaultIndex({
+  distFolder: "dist_client",
+  entry: "./index.js",
+  hbr: false,
+  indexTemplate: /*html*/ `<!DOCTYPE html>
     <html lang="en">
       <head>
         <meta charset="UTF-8" />
@@ -100,5 +98,4 @@ addDefaultIndex(
       </body>
       </html>
       `,
-  'window.dispatchEvent(new CustomEvent("SIMPLE_HTML_SAVE_STATE"));'
-);
+});

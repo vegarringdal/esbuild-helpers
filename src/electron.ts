@@ -31,20 +31,20 @@ function runElectronApp(launchJs: string, electronArgs?: eletronArg) {
   spawner("node", args);
 }
 
-export async function electron(
-  watch: string,
-  production: Boolean,
-  startNodejs: boolean,
-  esbuildConfig: BuildOptions,
-  nodeArgs?: eletronArg
-) {
+type config = {
+  watch: string;
+  launch?: boolean;
+  launchArg?: eletronArg;
+};
+
+export async function electron(config: config|null, esbuildConfig: BuildOptions) {
   const builder = await build(esbuildConfig);
   log(
     `electron build done: ${esbuildConfig?.outfile || esbuildConfig?.outdir}`
   );
 
-  if (!production) {
-    chokidar.watch(watch, {}).on("change", async (eventName, path) => {
+  if (config && config.watch) {
+    chokidar.watch(config.watch, {}).on("change", async (eventName, path) => {
       const msg = `client file changed ${eventName}`;
       log(msg);
 
@@ -54,7 +54,7 @@ export async function electron(
           childSpawn.kill("SIGINT");
         }
         return builder.rebuild().then(() => {
-          if (esbuildConfig.outfile && startNodejs) {
+          if (esbuildConfig.outfile && config.launch) {
             runElectronApp(esbuildConfig.outfile);
           }
 
@@ -66,7 +66,7 @@ export async function electron(
       }
     });
   }
-  if (esbuildConfig.outfile && startNodejs) {
-    runElectronApp(esbuildConfig.outfile, nodeArgs);
+  if (esbuildConfig.outfile && config && config.launch) {
+    runElectronApp(esbuildConfig.outfile, config.launchArg);
   }
 }
