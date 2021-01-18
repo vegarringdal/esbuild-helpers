@@ -3,11 +3,21 @@ import { callWebsocketClient } from "./websocketServer";
 import { build, BuildOptions } from "esbuild";
 import chokidar from "chokidar";
 import { log } from "./log";
+import { subscribe, publish } from "./events";
 
 let childSpawn: any;
 type nodeArg = { argsBefore?: string[]; argsAfter?: string[] };
 
+function send(msg: string) {
+  log(`NODEJS`, msg);
+}
+
+function buildDone(esbuildConfig: BuildOptions) {
+  send(`build done: ${esbuildConfig?.outfile || esbuildConfig?.outdir}`);
+}
+
 function runNodeApp(launchJs: string, nodeArgs?: nodeArg) {
+  send('staring app');
   function spawner(cmd: string, args: string[]) {
     childSpawn = spawn(cmd, args, {
       stdio: "inherit",
@@ -15,7 +25,7 @@ function runNodeApp(launchJs: string, nodeArgs?: nodeArg) {
       env: process.env,
     });
     childSpawn.on("exit", function (code: number) {
-      log(`\nNode app failed:${code}\n`);
+      send(`app exit:${code || ''}`);
     });
   }
 
@@ -35,21 +45,28 @@ type config = {
   watch: string;
   launch?: boolean;
   launchArg?: nodeArg;
+  transmitt?: string;
+  listen?: string;
 };
 
-export async function nodejs(config: config | null, esbuildConfig: BuildOptions) {
+export async function nodejs(
+  config: config | null,
+  esbuildConfig: BuildOptions
+) {
   const builder = await build(esbuildConfig);
-  log(`nodejs build done: ${esbuildConfig?.outfile || esbuildConfig?.outdir}`);
+  buildDone(esbuildConfig);
 
   if (config && config.watch) {
     chokidar.watch(config.watch, {}).on("change", async (eventName, path) => {
-      const msg = `client file changed ${eventName}`;
-      log(msg);
+      const msg = `file changed ${eventName}`;
+      send(msg);
 
       // rebuild only be if incremental config
       if (builder.rebuild) {
         return builder.rebuild().then(() => {
+          buildDone(esbuildConfig);
           if (childSpawn) {
+            send('killing app');
             childSpawn.kill("SIGINT");
           }
 
@@ -57,15 +74,49 @@ export async function nodejs(config: config | null, esbuildConfig: BuildOptions)
             runNodeApp(esbuildConfig.outfile);
           }
 
+          if (config.transmitt) {
+            publish(config.transmitt);
+          }
+
           callWebsocketClient(msg);
         });
       } else {
         // no increment, then we just build it
-        return build(esbuildConfig);
+        return build(esbuildConfig).then(() => {
+          buildDone(esbuildConfig);
+          if (config.transmitt) {
+            publish(config.transmitt);
+          }
+        });
       }
     });
   }
+
   if (esbuildConfig.outfile && config && config.launch) {
     runNodeApp(esbuildConfig.outfile, config.launchArg);
+  }
+
+  if (config?.listen) {
+    subscribe(config.listen, async function () {
+      const msg = `subscribe event ${config.listen}`;
+      send(msg);
+      if (builder && builder.rebuild) {
+        builder.rebuild().then(() => {
+          buildDone(esbuildConfig);
+          callWebsocketClient(msg);
+          if (config.transmitt) {
+            publish(config.transmitt);
+          }
+        });
+      } else {
+        build(esbuildConfig).then(() => {
+          buildDone(esbuildConfig);
+          callWebsocketClient(msg);
+          if (config.transmitt) {
+            publish(config.transmitt);
+          }
+        });
+      }
+    });
   }
 }

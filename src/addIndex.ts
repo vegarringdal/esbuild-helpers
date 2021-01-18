@@ -74,5 +74,5 @@ export function addDefaultIndex(config: config) {
       config.hbr ? hbrBundle : normalBundle
     )
   );
-  log("index added");
+  log("ADD INDEX", "added");
 }
