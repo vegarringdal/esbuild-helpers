@@ -1,6 +1,6 @@
 {
   "name": "esbuild-helpers",
-  "version": "0.0.1-next.2",
+  "version": "0.0.1-next.3",
   "description": "Simple helper lib to help make js bundles for web, nodejs server and electron",
   "scripts": {
     "build": "tsc --project tsconfig-build.json",
