@@ -9,11 +9,13 @@
       "type": "node",
       "request": "attach",
       "stopOnEntry": false,
+      "outFiles": ["${workspaceFolder}/dist_nodejs/**/*.js"],
       "port": 9229,
       "restart": true,
-      "smartStep": false,
+      "smartStep": true,
       "sourceMaps": true
     },
+
     {
       /*
        * run "npm start" then start this and you can debug client side in vscode

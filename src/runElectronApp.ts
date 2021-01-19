@@ -15,7 +15,7 @@ export function runElectronApp(
     args = args.concat(electronArgs.argsBefore);
   }
 
-  msgCallback("staring app");
+  msgCallback(`staring app, argsbefore:${electronArgs?.argsBefore}, argsafter:${electronArgs?.argsAfter}`);
   const childSpawn = spawn(
     "node",
     ["./node_modules/electron/cli.js", ...args],

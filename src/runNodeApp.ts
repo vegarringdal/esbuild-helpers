@@ -15,7 +15,7 @@ export function runNodeApp(
     args = args.concat(nodeArgs.argsBefore);
   }
 
-  msgCallback("staring app");
+  msgCallback(`staring app, argsbefore:${nodeArgs?.argsBefore}, argsafter:${nodeArgs?.argsAfter}`);
   const childSpawn = spawn("node", args, {
     stdio: "inherit",
     cwd: process.cwd(),
