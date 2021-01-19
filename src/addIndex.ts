@@ -7,6 +7,7 @@ import { startDevServer } from "./webDevServer";
 
 export function clearFolders(...folders: string[]) {
   folders.forEach((folder) => {
+    log('RM_FOLDER', folder)
     rimraf.sync(folder);
   });
 }
