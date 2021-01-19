@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { log } from "./log";
 import { startWebsocketServer } from "./websocketServer";
+import { startDevServer } from "./webDevServer";
 
 export function clearFolders(...folders: string[]) {
   folders.forEach((folder) => {
@@ -14,6 +15,8 @@ type config = {
   distFolder: string;
   entry: string;
   hbr: boolean;
+  devServer?: boolean;
+  devServerPort?: number;
   webSocketPort?: number;
   indexTemplate: string;
   userInjectOnHbr?: string;
@@ -29,8 +32,8 @@ export function addDefaultIndex(config: config) {
   fs.mkdirSync(config.distFolder, { recursive: true });
 
   // if hbr then add start websocket server
-  if (config.hbr && config.webSocketPort) {
-    startWebsocketServer(config.webSocketPort);
+  if (config.hbr) {
+    startWebsocketServer(config.webSocketPort || 8081);
   }
 
   const normalBundle = `<script>import("${config.entry}")</script>`;
@@ -42,7 +45,7 @@ export function addDefaultIndex(config: config) {
       let connected = false;
 
       const websocketConnection = function () {
-        const ws = new WebSocket("ws://localhost:${config.webSocketPort}");
+        const ws = new WebSocket("ws://localhost:${config.webSocketPort || 8081}");
 
         ws.addEventListener("open", function () {
           connected = true;
@@ -75,4 +78,8 @@ export function addDefaultIndex(config: config) {
     )
   );
   log("ADD INDEX", "added");
+
+  if (config.devServer) {
+    startDevServer(config.devServerPort || 8080, config.distFolder);
+  }
 }

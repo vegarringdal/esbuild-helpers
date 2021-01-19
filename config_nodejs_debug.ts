@@ -11,7 +11,7 @@ import {
 clearFolders("dist_client", "dist_nodejs");
 
 /**
- * css
+ * css so we dont need to wait for postcss unless we change css..
  */
 single(
   { watch: "./src_client/**/*.css" },

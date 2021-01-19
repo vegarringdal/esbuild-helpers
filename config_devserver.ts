@@ -29,35 +29,11 @@ single(
 );
 
 
-
-/**
- * nodejs bundle
- */
-nodejs(
-  { watch: "./src_nodejs/**/*.ts", launch: true,  listen:"CLIENT" },
-  {
-    color: true,
-    define: {
-      DEVELOPMENT: "true",
-    },
-    entryPoints: ["./src_nodejs/index.ts"],
-    outfile: "./dist_nodejs/index.js",
-    minify: false,
-    target: "node14",
-    bundle: true,
-    plugins: [makeAllPackagesExternalPlugin],
-    platform: "node",
-    sourcemap: true,
-    logLevel: "error",
-    incremental: true,
-  }
-);
-
 /**
  * client bundle
  */
 client(
-  { watch: "./src_client/**/*.ts", transmitt:"CLIENT" },
+  { watch: "./src_client/**/*.ts" },
   {
     color: true,
     define: {
@@ -82,7 +58,7 @@ addDefaultIndex({
   distFolder: "dist_client",
   entry: "./index.js",
   hbr: true,
-  webSocketPort: 8080,
+  devServer:true,
   userInjectOnHbr:
     'window.dispatchEvent(new CustomEvent("SIMPLE_HTML_SAVE_STATE"));',
   indexTemplate: /*html*/ `<!DOCTYPE html>
