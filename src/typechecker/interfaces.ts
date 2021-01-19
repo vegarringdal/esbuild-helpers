@@ -25,12 +25,10 @@ export interface ITypeCheckerOptions {
     // skip ts errors
     skipTsErrors?: SkipError;
 
-    // plugin options
-    printFirstRun?: boolean; // default true when used as plugin
-
     // print settings
     print_summary?: boolean; //default false
     print_runtime?: boolean; //default false
+    print_watchStarted?: boolean; // default false
 
     // internals
     tsConfigJsonContent?: any;

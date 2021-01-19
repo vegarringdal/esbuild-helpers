@@ -3,7 +3,7 @@ import { app, BrowserWindow } from "electron";
 
 const frontends = new Set<BrowserWindow>();
 const version = require("../package.json").version;
-if (require("electron-squirrel-startup")) app.quit();
+//if (require("electron-squirrel-startup")) app.quit();
 
 app
   .whenReady()

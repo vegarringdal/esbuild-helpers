@@ -4,6 +4,7 @@ import { C_Blue, C_Gray, C_Reset, Logger } from './logger';
 
 export function printSettings(options: ITypeCheckerOptions) {
     // configuration name
+    Logger.info('');
     Logger.info(`${C_Blue}Typechecker settings - name:`, C_Gray, options.name, C_Reset);
 
     // base path being used
