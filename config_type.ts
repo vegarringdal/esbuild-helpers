@@ -1,4 +1,6 @@
-import { TypeChecker, ITypeCheckerOptions } from "./src/exported";
+import { TypeChecker } from "./src/exported";
+
+// I would use splitview and have this in own view
 
 const checker_client = TypeChecker({
   basePath: "./src_client",

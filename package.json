@@ -8,6 +8,7 @@
     "nodejs:prod": "ts-node config_nodejs_prod",
     "nodejs:prod:run": "ts-node config_nodejs_prod && node ./dist_nodejs/index.js",
     "nodejs:debug": "ts-node config_nodejs_debug",
+    "nodejs:events": "ts-node config_nodejs_event",
     "electron:dev": "ts-node config_electron",
     "checker": "ts-node config_type"
   },

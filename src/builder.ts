@@ -16,30 +16,32 @@ export async function builder(
   let childSpawn: ChildProcess;
   let builder: BuildResult | null;
 
-  function send(msg: string) {
+  // internal console log printer
+  function logMsg(msg: string) {
     log(type, msg);
   }
 
-  function sendBuildDone() {
-    send(`build done: ${esbuildConfig?.outfile || esbuildConfig?.outdir}`);
+  // internal console log printer
+  function logBuildDone() {
+    logMsg(`build done: ${esbuildConfig?.outfile || esbuildConfig?.outdir}`);
   }
 
+  // helper for rebuilder
   async function makeBuilder() {
     try {
       builder = await build(esbuildConfig);
     } catch (e) {
-      send("esbuild failed");
+      logMsg("esbuild failed");
     }
   }
-
   await makeBuilder();
 
-  sendBuildDone();
+  logBuildDone();
 
   if (config && config.watch) {
     chokidar.watch(config.watch, {}).on("change", async (eventName, path) => {
       const msg = `file changed ${eventName}`;
-      send(msg);
+      logMsg(msg);
 
       if (!builder && esbuildConfig.incremental) {
         await makeBuilder();
@@ -52,9 +54,10 @@ export async function builder(
         return builder
           .rebuild()
           .then(() => {
-            sendBuildDone();
+            logBuildDone();
+
             if (childSpawn) {
-              send("killing app");
+              logMsg("killing app");
               childSpawn.kill("SIGINT");
             }
 
@@ -63,7 +66,7 @@ export async function builder(
                 esbuildConfig.outfile,
                 config.launchArg,
                 (msg: string) => {
-                  send(msg);
+                  logMsg(msg);
                 }
               );
             }
@@ -73,7 +76,7 @@ export async function builder(
                 esbuildConfig.outfile,
                 config.launchArg,
                 (msg: string) => {
-                  send(msg);
+                  logMsg(msg);
                 }
               );
             }
@@ -86,35 +89,49 @@ export async function builder(
           })
           .catch(() => {
             // if this break then reset rebuild option
-            send("esbuild failed");
+            logMsg("esbuild failed");
             builder = null;
           });
       } else {
         // no increment, then we just build it
         return build(esbuildConfig)
           .then(() => {
-            sendBuildDone();
+            logBuildDone();
             if (config.transmitt) {
               publish(config.transmitt);
             }
           })
           .catch(() => {
-            send("esbuild failed");
+            logMsg("esbuild failed");
           });
       }
     });
   }
 
-  if (esbuildConfig.outfile && config && config.launch) {
-    runNodeApp(esbuildConfig.outfile, config.launchArg, (msg: string) => {
-      send(msg);
-    });
+  if (esbuildConfig.outfile && config && config.launch && type === "NODEJS") {
+    childSpawn = runNodeApp(
+      esbuildConfig.outfile,
+      config.launchArg,
+      (msg: string) => {
+        logMsg(msg);
+      }
+    );
+  }
+
+  if (esbuildConfig.outfile && config && config.launch && type === "ELECTRON") {
+    childSpawn = runElectronApp(
+      esbuildConfig.outfile,
+      config.launchArg,
+      (msg: string) => {
+        logMsg(msg);
+      }
+    );
   }
 
   if (config?.listen) {
     subscribe(config.listen, async function () {
       const msg = `subscribe event ${config.listen}`;
-      send(msg);
+      logMsg(msg);
 
       if (!builder && esbuildConfig.incremental) {
         await makeBuilder();
@@ -126,14 +143,14 @@ export async function builder(
         builder
           .rebuild()
           .then(() => {
-            sendBuildDone();
+            logBuildDone();
             callWebsocketClient(msg);
             if (config.transmitt) {
               publish(config.transmitt);
             }
           })
           .catch(() => {
-            send("esbuild failed");
+            logMsg("esbuild failed");
             builder = null;
           });
       } else {
@@ -141,14 +158,14 @@ export async function builder(
 
         build(esbuildConfig)
           .then(() => {
-            sendBuildDone();
+            logBuildDone();
             callWebsocketClient(msg);
             if (config.transmitt) {
               publish(config.transmitt);
             }
           })
           .catch(() => {
-            send("esbuild failed");
+            logMsg("esbuild failed");
           });
       }
     });
