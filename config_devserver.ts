@@ -59,6 +59,7 @@ addDefaultIndex({
   entry: "./index.js",
   hbr: true,
   devServer:true,
+  devServerPort:80,
   userInjectOnHbr:
     'window.dispatchEvent(new CustomEvent("SIMPLE_HTML_SAVE_STATE"));',
   indexTemplate: /*html*/ `<!DOCTYPE html>
