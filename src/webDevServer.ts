@@ -3,7 +3,7 @@ import compression from "compression";
 import { constants } from "zlib";
 import { log } from "./log";
 
-export function startDevServer(port: number, distFolder: string) {
+export function startDevServer(port: number, distFolder: string, host: string) {
   const app = express();
 
   app.use(
@@ -21,6 +21,7 @@ export function startDevServer(port: number, distFolder: string) {
   );
 
   app.listen(port, () => {
-    log("DEVSERVER", "started, listening on http://127.0.0.1:" + port);
+    log(`DEVSERVER`, `http://${host || "localhost"}:` + port);
+    log(`DEVSERVER`, `path: ${distFolder}:`);
   });
 }
