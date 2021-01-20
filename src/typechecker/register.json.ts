@@ -5,7 +5,8 @@ import { readFileSync } from 'fs';
 require.extensions['.json'] = function(module, filename) {
     const content = readFileSync(filename, 'utf8');
     try {
-        module.exports = JSON.parse(content);
+        // regex from https://stackoverflow.com/questions/40685262/read-json-file-ignoring-custom-comments  (thank you :-))
+        module.exports = JSON.parse(content.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => g ? "" : m));
     } catch (err) {
         err.message = filename + ': ' + err.message;
         throw err;
