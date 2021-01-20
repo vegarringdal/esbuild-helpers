@@ -13,7 +13,7 @@ export function printSettings(options: ITypeCheckerOptions) {
     // get tsconfig path and options
     if (options.tsConfig) {
         let tsconf = getPath(options.tsConfig, options);
-        Logger.info(`Typechecker settings - tsconfig:`, C_Gray, tsconf, C_Reset);
+        Logger.info(`${C_Blue}Typechecker settings - tsconfig:`, C_Gray, tsconf, C_Reset);
     } else {
         Logger.info(
             `${C_Blue}Typechecker settings - tsconfig:`,
