@@ -92,7 +92,7 @@ export async function builder(
 
             callWebsocketClient(msg);
           })
-          .catch(() => {
+          .catch((e) => {
             // if this break then reset rebuild option
             buildError(e);
             builder = null;
@@ -106,7 +106,7 @@ export async function builder(
               publish(config.transmitt);
             }
           })
-          .catch(() => {
+          .catch((e) => {
             buildError(e);
           });
       }
