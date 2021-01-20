@@ -26,12 +26,17 @@ export async function builder(
     logMsg(`build done: ${esbuildConfig?.outfile || esbuildConfig?.outdir}`);
   }
 
+  function buildError(error:any) {
+    logMsg(`esbuild failed`+ config?.printBuildError ? error: '');
+   
+  }
+
   // helper for rebuilder
   async function makeBuilder() {
     try {
       builder = await build(esbuildConfig);
     } catch (e) {
-      logMsg("esbuild failed");
+      buildError(e);
     }
   }
   await makeBuilder();
@@ -89,7 +94,7 @@ export async function builder(
           })
           .catch(() => {
             // if this break then reset rebuild option
-            logMsg("esbuild failed");
+            buildError(e);
             builder = null;
           });
       } else {
@@ -102,7 +107,7 @@ export async function builder(
             }
           })
           .catch(() => {
-            logMsg("esbuild failed");
+            buildError(e);
           });
       }
     });
@@ -149,8 +154,8 @@ export async function builder(
               publish(config.transmitt);
             }
           })
-          .catch(() => {
-            logMsg("esbuild failed");
+          .catch((e) => {
+            buildError(e);
             builder = null;
           });
       } else {
@@ -164,8 +169,8 @@ export async function builder(
               publish(config.transmitt);
             }
           })
-          .catch(() => {
-            logMsg("esbuild failed");
+          .catch((e) => {
+            buildError(e);
           });
       }
     });

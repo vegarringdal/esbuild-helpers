@@ -7,6 +7,7 @@ export type builderConfig = {
   launchArg?: nodeArg;
   transmitt?: string;
   listen?: string;
+  printBuildError?: boolean;
 };
 
 export type nodejsConfig = {
@@ -15,12 +16,14 @@ export type nodejsConfig = {
   launchArg?: nodeArg;
   transmitt?: string;
   listen?: string;
+  printBuildError?: boolean;
 };
 
 export type clientConfig = {
   watch: string;
   transmitt?: string;
   listen?: string;
+  printBuildError?: boolean;
 };
 
 export type electronConfig = {
@@ -29,6 +32,7 @@ export type electronConfig = {
   launchArg?: eletronArg;
   transmitt?: string;
   listen?: string;
+  printBuildError?: boolean;
 };
 
 export type singleConfig = {
@@ -36,4 +40,5 @@ export type singleConfig = {
   name?: string;
   transmitt?: string;
   listen?: string;
+  printBuildError?: boolean;
 };
