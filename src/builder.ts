@@ -27,7 +27,7 @@ export async function builder(
   }
 
   function buildError(error:any) {
-    logMsg(`esbuild failed`+ config?.printBuildError ? error: '');
+    logMsg(`esbuild failed`+ config?.printBuildError && config?.printBuildError === true ? error: '');
    
   }
 
