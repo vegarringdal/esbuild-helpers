@@ -2,7 +2,7 @@ export type nodeArg = { argsBefore?: string[]; argsAfter?: string[] };
 export type eletronArg = { argsBefore?: string[]; argsAfter?: string[] };
 export type builderType = "CLIENT" | "NODEJS" | "SINGLE" | "ELECTRON";
 export type builderConfig = {
-  watch: string;
+  watch: string | string[];
   launch?: boolean;
   launchArg?: nodeArg;
   transmitt?: string;
@@ -11,7 +11,7 @@ export type builderConfig = {
 };
 
 export type nodejsConfig = {
-  watch: string;
+  watch: string | string[];
   launch?: boolean;
   launchArg?: nodeArg;
   transmitt?: string;
@@ -20,14 +20,14 @@ export type nodejsConfig = {
 };
 
 export type clientConfig = {
-  watch: string;
+  watch: string | string[];
   transmitt?: string;
   listen?: string;
   printBuildError?: boolean;
 };
 
 export type electronConfig = {
-  watch: string;
+  watch: string | string[];
   launch?: boolean;
   launchArg?: eletronArg;
   transmitt?: string;
@@ -36,7 +36,7 @@ export type electronConfig = {
 };
 
 export type singleConfig = {
-  watch: string;
+  watch: string | string[];
   name?: string;
   transmitt?: string;
   listen?: string;
