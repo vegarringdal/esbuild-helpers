@@ -54,7 +54,7 @@ single(null, {
     ]),
   ],
   logLevel: "error",
-  incremental: true,
+  incremental: false,
 });
 
 client(null, {
