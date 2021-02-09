@@ -12,7 +12,13 @@ export function watchSrc(
   callback: Function
 ) {
   debugPrint("watchSrc" + pathToWatch);
-  let basePath = getPath(pathToWatch, options);
+  let basePath: string | string[];
+  if (Array.isArray(pathToWatch)) {
+    basePath = pathToWatch.map((p) => getPath(p, options));
+  } else {
+    basePath = getPath(pathToWatch, options);
+  }
+  //let basePath = getPath(pathToWatch, options);
 
   const watch = chokidar.watch(basePath);
   // todo-> move into thread

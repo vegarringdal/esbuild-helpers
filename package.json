@@ -12,7 +12,7 @@
     "nodejs:events": "ts-node config_nodejs_event",
     "devserver": "ts-node config_devserver",
     "electron:dev": "ts-node config_electron",
-    "checker": "ts-node config_type"
+    "typechecker": "ts-node config_type"
   },
   "keywords": [],
   "author": "Vegar Ringdal",

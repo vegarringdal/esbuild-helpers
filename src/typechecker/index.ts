@@ -98,7 +98,7 @@ export class TypeHelperClass {
         }
     }
 
-    public worker_watch(pathToWatch: string): void {
+    public worker_watch(pathToWatch: string | string[]): void {
         this.startWorker();
         this.worker.send({
             quit: false,
