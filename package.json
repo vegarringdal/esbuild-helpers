@@ -4,7 +4,8 @@
   "description": "Simple helper lib to help make js bundles for web, nodejs server and electron",
   "typings": "src/exported",
   "scripts": {
-    "build": "tsc --project tsconfig-build.json",
+    "rimraf": "./node_modules/rimraf/bin.js",
+    "build": "rimraf dist/ && tsc --project tsconfig-build.json",
     "nodejs:dev": "ts-node config_nodejs",
     "nodejs:prod": "ts-node config_nodejs_prod",
     "nodejs:prod:run": "ts-node config_nodejs_prod && node ./dist_nodejs/index.js",

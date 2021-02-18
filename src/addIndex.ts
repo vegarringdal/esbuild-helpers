@@ -14,6 +14,7 @@ export function clearFolders(...folders: string[]) {
 
 type config = {
   distFolder: string;
+  publicFolders: string[];
   entry?: string;
   hbr?: boolean;
   devServer?: boolean;
@@ -90,6 +91,7 @@ export function addDefaultIndex(config: config) {
     startDevServer(
       config.devServerPort || 8080,
       config.distFolder,
+      config.publicFolders,
       config.host || "localhost"
     );
 

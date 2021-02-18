@@ -3,7 +3,12 @@ import compression from "compression";
 import { constants } from "zlib";
 import { log } from "./log";
 
-export function startDevServer(port: number, distFolder: string, host: string) {
+export function startDevServer(
+  port: number,
+  distFolder: string,
+  publicFolders: string[],
+  host: string
+) {
   const app = express();
 
   app.use(
@@ -12,6 +17,17 @@ export function startDevServer(port: number, distFolder: string, host: string) {
       flush: constants.Z_SYNC_FLUSH,
     })
   );
+
+  if (Array.isArray(publicFolders)) {
+    publicFolders.forEach((folder) => {
+      app.use(
+        express.static(folder, {
+          etag: false,
+          maxAge: "5",
+        })
+      );
+    });
+  }
 
   app.use(
     express.static(distFolder, {
