@@ -84,6 +84,7 @@ client(
 addDefaultIndex({
   distFolder: "dist_client",
   entry: "./index.js",
+  publicFolders:[],
   hbr: true,
   webSocketPort: 8080,
   userInjectOnHbr:

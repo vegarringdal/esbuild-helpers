@@ -82,6 +82,7 @@ client(null, {
  */
 addDefaultIndex({
   distFolder: "dist_client",
+  publicFolders:[],
   entry: "./index.js",
   hbr: false,
   indexTemplate: /*html*/ `<!DOCTYPE html>

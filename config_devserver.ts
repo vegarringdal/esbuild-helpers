@@ -57,6 +57,7 @@ client(
 addDefaultIndex({
   distFolder: "dist_client",
   entry: "./index.js",
+  publicFolders:[],
   hbr: true,
   devServer:true,
   devServerPort:80,
