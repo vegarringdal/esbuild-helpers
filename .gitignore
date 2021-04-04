@@ -3,3 +3,4 @@ dist_client
 dist_nodejs
 dist_electron_main
 dist
+test

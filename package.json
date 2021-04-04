@@ -1,6 +1,6 @@
 {
   "name": "esbuild-helpers",
-  "version": "0.0.1-next.13",
+  "version": "0.0.1",
   "description": "Simple helper lib to help make js bundles for web, nodejs server and electron",
   "typings": "src/exported",
   "scripts": {
@@ -13,7 +13,8 @@
     "nodejs:events": "ts-node config_nodejs_event",
     "devserver": "ts-node config_devserver",
     "electron:dev": "ts-node config_electron",
-    "typechecker": "ts-node config_type"
+    "typechecker": "ts-node config_type",
+    "copy": "ts-node config_copy"
   },
   "keywords": [],
   "author": "Vegar Ringdal",
@@ -21,6 +22,7 @@
   "dependencies": {
     "chokidar": "^3.5.1",
     "express": "^4.17.1",
+    "globby": "^11.0.3",
     "rimraf": "^3.0.2",
     "ws": "^7.4.4",
     "zlib": "^1.0.5"
