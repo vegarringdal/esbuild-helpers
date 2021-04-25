@@ -2,7 +2,6 @@
   "name": "esbuild-helpers",
   "version": "0.0.2",
   "description": "Simple helper lib to help make js bundles for web, nodejs server and electron",
-  "typings": "src/exported",
   "scripts": {
     "rimraf": "./node_modules/rimraf/bin.js",
     "build": "rimraf dist/ && tsc --project tsconfig-build.json",
