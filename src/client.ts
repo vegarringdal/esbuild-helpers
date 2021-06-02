@@ -6,5 +6,5 @@ export async function client(
   config: clientConfig | null,
   esbuildConfig: BuildOptions
 ) {
-  builder("CLIENT", config, esbuildConfig);
+  return builder("CLIENT", config, esbuildConfig);
 }

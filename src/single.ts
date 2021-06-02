@@ -6,5 +6,5 @@ export async function single(
   config: singleConfig | null,
   esbuildConfig: BuildOptions
 ) {
-  builder("SINGLE", config, esbuildConfig);
+  return builder("SINGLE", config, esbuildConfig);
 }
