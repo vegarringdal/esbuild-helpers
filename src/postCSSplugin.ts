@@ -1,6 +1,10 @@
-import postcss from "postcss";
 import fs from "fs";
 import path from "path";
+
+let postcss: any;
+try {
+  postcss = require("postcss");
+} catch (err) {}
 
 const readFile = (file: string): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -27,9 +31,17 @@ export function postcssPlugin(plugins?: any[], options?: any) {
               from: args.path,
             });
           } catch (e) {
-            console.log(e, result);
+            if (!postcss) {
+              console.log(
+                "\npostcss module is missing, try npm install postcss\n",
+                args.path,
+                "\n"
+              );
+            } else {
+              console.log(e, result);
+            }
           }
-          resolve({ contents: result.css, loader: "css" });
+          resolve({ contents: result?.css, loader: "css" });
         });
       });
     },

@@ -1,6 +1,10 @@
-import { minifyHTMLLiterals } from "minify-html-literals";
 import fs from "fs";
 import path from "path";
+
+let minifyHTMLLiterals: any;
+try {
+  minifyHTMLLiterals = require("minify-html-literals");
+} catch (err) {}
 
 const readFile = (file: string): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -25,7 +29,15 @@ export function minifyHTMLLiteralsPlugin(config = {}) {
           try {
             result = minifyHTMLLiterals(text, config);
           } catch (e) {
-            console.log(e, result);
+            if (!minifyHTMLLiterals) {
+              console.log(
+                "\nminify HTML Literals module is missing, try npm install minify-html-literals\n",
+                args.path,
+                "\n"
+              );
+            } else {
+              console.log(e, result);
+            }
           }
           if (!result) {
             resolve(undefined);

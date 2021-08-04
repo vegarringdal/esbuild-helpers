@@ -1,7 +1,11 @@
 import express from "express";
-import compression from "compression";
 import { constants } from "zlib";
 import { log } from "./log";
+
+let compression: any;
+try {
+  compression = require("compression");
+} catch (err) {}
 
 export function startDevServer(
   port: number,
@@ -11,12 +15,14 @@ export function startDevServer(
 ) {
   const app = express();
 
-  app.use(
-    compression({
-      threshold: 1,
-      flush: constants.Z_SYNC_FLUSH,
-    })
-  );
+  if (compression) {
+    app.use(
+      compression({
+        threshold: 1,
+        flush: constants.Z_SYNC_FLUSH,
+      })
+    );
+  }
 
   if (Array.isArray(publicFolders)) {
     publicFolders.forEach((folder) => {

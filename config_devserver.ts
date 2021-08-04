@@ -6,6 +6,7 @@ import {
   makeAllPackagesExternalPlugin,
   postcssPlugin,
   single,
+  minifyHTMLLiteralsPlugin,
 } from "./src/exported";
 
 clearFolders("dist_client", "dist_nodejs");
@@ -41,6 +42,7 @@ client(
     },
     entryPoints: ["./src_client/index.ts"],
     outfile: "./dist_client/index.js",
+    plugins:[minifyHTMLLiteralsPlugin()],
     minify: false,
     bundle: true,
     platform: "browser",
