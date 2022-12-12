@@ -1,6 +1,6 @@
 {
   "name": "esbuild-helpers",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Simple helper lib to help make js bundles for web, nodejs server and electron",
   "scripts": {
     "rimraf": "./node_modules/rimraf/bin.js",
