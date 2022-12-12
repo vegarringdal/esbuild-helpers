@@ -7,7 +7,7 @@ require.extensions['.json'] = function(module, filename) {
     try {
         // regex from https://stackoverflow.com/questions/40685262/read-json-file-ignoring-custom-comments  (thank you :-))
         module.exports = JSON.parse(content.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => g ? "" : m));
-    } catch (err) {
+    } catch (err:any) {
         err.message = filename + ': ' + err.message;
         throw err;
     }

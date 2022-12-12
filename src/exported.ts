@@ -9,4 +9,4 @@ export { minifyHTMLLiteralsPlugin } from "./minifyHTMLLiteralsPlugin";
 export { postcssPlugin } from "./postCSSplugin";
 export { TypeChecker } from "./typechecker/index";
 export { ITypeCheckerOptions } from "./typechecker/interfaces";
-export { copySync, copy } from './copy';
+export { copy } from './copy';

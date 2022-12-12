@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import {globby, globbySync } from 'globby';
+import fg from 'fast-glob';
 import { log } from './log';
 
 
@@ -16,7 +16,7 @@ function copyInternal(files: string[], destFolder: string) {
 export function copy(pattern: string, destFolder: string) {
     return new Promise(async (resolve, reject) => {
         try {
-            const files = await globby(pattern)
+            const files = await fg(pattern)
             copyInternal(files, destFolder);
             resolve(null)
         } catch (err) {
@@ -26,5 +26,5 @@ export function copy(pattern: string, destFolder: string) {
 }
 
 export function copySync(pattern: string, destFolder: string) {
-    copyInternal(globbySync(pattern), destFolder);
+    copyInternal(fg.sync(pattern), destFolder);
 }

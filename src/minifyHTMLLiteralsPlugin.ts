@@ -8,7 +8,7 @@ try {
 
 const readFile = (file: string): Promise<string> => {
   return new Promise((resolve, reject) => {
-    fs.readFile(path.resolve(file), "UTF8", (err: any, data: any) => {
+    fs.readFile(path.resolve(file), null, (err: any, data: any) => {
       if (err) {
         reject(err);
       } else {

@@ -1,15 +1,12 @@
-
 module.exports = {
-  purge: {
-    enabled: process.env.PRODUCTION,
-    content: ["./src_client/**/*.ts"],
-  },
-  darkMode: false, // or 'media' or 'class'
+  mode: "jit",
+  content: ["./src_client/index.html"],
+  darkMode: "class", // or 'media' or 'class'
   theme: {
-    extend: {},
+      extend: {}
   },
   variants: {
-    extend: {},
+      extend: {}
   },
-  plugins: [],
+  plugins: []
 };
