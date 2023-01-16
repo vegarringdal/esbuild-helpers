@@ -1,12 +1,9 @@
 import {
   clearFolders,
   addDefaultIndex,
-  nodejs,
   client,
-  makeAllPackagesExternalPlugin,
   postcssPlugin,
-  single,
-  minifyHTMLLiteralsPlugin,
+  single
 } from "./src/exported";
 
 clearFolders("dist_client", "dist_nodejs");
@@ -24,8 +21,7 @@ single(
     entryPoints: ["./src_client/index.css"],
     outfile: "./dist_client/index.css",
     plugins: [postcssPlugin([require("tailwindcss")("./tailwind.config.js")])],
-    logLevel: "error",
-    incremental: true,
+    logLevel: "error"
   }
 );
 
@@ -42,13 +38,12 @@ client(
     },
     entryPoints: ["./src_client/index.ts"],
     outfile: "./dist_client/index.js",
-    plugins:[minifyHTMLLiteralsPlugin()],
+    plugins:[],
     minify: false,
     bundle: true,
     platform: "browser",
     sourcemap: true,
-    logLevel: "error",
-    incremental: true,
+    logLevel: "error"
   }
 );
 

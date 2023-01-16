@@ -1,6 +1,12 @@
 import { ChildProcess } from "child_process";
 import { callWebsocketClient } from "./websocketServer";
-import { build, BuildOptions, BuildResult } from "esbuild";
+import {
+  build,
+  BuildOptions,
+  BuildResult,
+  BuildContext,
+  context,
+} from "esbuild";
 import chokidar from "chokidar";
 import { log } from "./log";
 import { publish, subscribe } from "./events";
@@ -14,7 +20,7 @@ export async function builder(
   esbuildConfig: BuildOptions
 ) {
   let childSpawn: ChildProcess;
-  let builder: BuildResult | null;
+  let builder: BuildContext | BuildResult | null;
 
   // internal console log printer
   function logMsg(msg: string) {
@@ -26,20 +32,29 @@ export async function builder(
     logMsg(`build done: ${esbuildConfig?.outfile || esbuildConfig?.outdir}`);
   }
 
-  function buildError(error:any) {
-    logMsg(`esbuild failed`+ config?.printBuildError && config?.printBuildError === true ? error: '');
-   
+  function buildError(error: any) {
+    logMsg(
+      `esbuild failed` + config?.printBuildError &&
+        config?.printBuildError === true
+        ? error
+        : ""
+    );
   }
 
   // helper for rebuilder
-  async function makeBuilder() {
+  async function makeBuilder(dev: boolean) {
     try {
-      builder = await build(esbuildConfig);
+      if (dev) {
+        builder = await context(esbuildConfig);
+        await builder.rebuild();
+      } else {
+        builder = await build(esbuildConfig);
+      }
     } catch (e) {
       buildError(e);
     }
   }
-  await makeBuilder();
+  await makeBuilder(config?.watch !== undefined);
 
   logBuildDone();
 
@@ -48,15 +63,15 @@ export async function builder(
       const msg = `file changed ${eventName}`;
       logMsg(msg);
 
-      if (!builder && esbuildConfig.incremental) {
-        await makeBuilder();
+      if (!builder && config.watch) {
+        await makeBuilder(config.watch !== undefined);
       }
 
       // rebuild only be if incremental config
-      if (builder && builder.rebuild) {
+      if (builder && (builder as BuildContext).rebuild) {
         // incremental build
 
-        return builder
+        return (builder as BuildContext)
           .rebuild()
           .then(() => {
             logBuildDone();
@@ -138,14 +153,14 @@ export async function builder(
       const msg = `subscribe event ${config.listen}`;
       logMsg(msg);
 
-      if (!builder && esbuildConfig.incremental) {
-        await makeBuilder();
+      if (!builder && config.watch) {
+        await makeBuilder(config.watch !== undefined);
       }
 
-      if (builder && builder.rebuild) {
+      if (builder && (builder as BuildContext).rebuild) {
         // incremental build
 
-        builder
+        (builder as BuildContext)
           .rebuild()
           .then(() => {
             logBuildDone();

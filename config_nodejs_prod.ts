@@ -4,7 +4,6 @@ import {
   nodejs,
   client,
   makeAllPackagesExternalPlugin,
-  minifyHTMLLiteralsPlugin,
   postcssPlugin,
   single,
 } from "./src/exported";
@@ -31,8 +30,7 @@ nodejs(null, {
   plugins: [makeAllPackagesExternalPlugin],
   platform: "node",
   sourcemap: false,
-  logLevel: "error",
-  incremental: false,
+  logLevel: "error"
 });
 
 
@@ -53,8 +51,7 @@ single(null, {
       require("cssnano"),
     ]),
   ],
-  logLevel: "error",
-  incremental: false,
+  logLevel: "error"
 });
 
 client(null, {
@@ -67,13 +64,12 @@ client(null, {
   outdir: "./dist_client",
   minify: true,
   bundle: true,
-  plugins: [minifyHTMLLiteralsPlugin()],
+  plugins: [],
   target: "es2018",
   platform: "browser",
   sourcemap: false,
   splitting: true,
   logLevel: "error",
-  incremental: false,
   treeShaking: true,
 });
 

@@ -1,6 +1,6 @@
 module.exports = {
   mode: "jit",
-  content: ["./src_client/index.html"],
+  content: ["./src_client/index.ts"],
   darkMode: "class", // or 'media' or 'class'
   theme: {
       extend: {}

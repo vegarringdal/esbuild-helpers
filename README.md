@@ -15,7 +15,7 @@ Atm see config files at root for how to use.
   * Shows how to run nodejs with restart on changes
   * Code: `config_nodejs.ts`
 * `npm run nodejs:prod`
-  * Shows how to make productioin build for nodejs
+  * Shows how to make production build for nodejs
   * Code: `config_nodejs_prod.ts`
 * `npm run nodejs:prod:run`
   * Shows how to runn nodejs production build

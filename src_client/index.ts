@@ -1,1 +1,1 @@
-document.body.innerHTML = "<app-root></app-root>";
+document.body.innerHTML = `<app-root class="m-2"></app-root>`;

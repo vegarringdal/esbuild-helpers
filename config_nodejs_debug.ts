@@ -24,10 +24,8 @@ single(
     outfile: "./dist_client/index.css",
     plugins: [postcssPlugin([require("tailwindcss")("./tailwind.config.js")])],
     logLevel: "error",
-    incremental: true,
   }
 );
-
 
 /**
  * nodejs bundle
@@ -51,8 +49,7 @@ nodejs(
     plugins: [makeAllPackagesExternalPlugin],
     platform: "node",
     sourcemap: true,
-    logLevel: "error",
-    incremental: true,
+    logLevel: "error"
   }
 );
 
@@ -72,11 +69,9 @@ client(
     bundle: true,
     platform: "browser",
     sourcemap: true,
-    logLevel: "error",
-    incremental: true,
+    logLevel: "error"
   }
 );
-
 
 /**
  * index file for project
@@ -84,7 +79,7 @@ client(
 addDefaultIndex({
   distFolder: "dist_client",
   entry: "./index.js",
-  publicFolders:[],
+  publicFolders: [],
   hbr: true,
   webSocketPort: 8080,
   userInjectOnHbr:
@@ -104,4 +99,3 @@ addDefaultIndex({
       </html>
       `,
 });
-

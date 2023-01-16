@@ -10,8 +10,6 @@ import {
 
 clearFolders("dist_client", "dist_nodejs");
 
-
-
 /**
  * css so we dont need to wait for postcss unless we change css..
  */
@@ -26,11 +24,8 @@ single(
     outfile: "./dist_client/index.css",
     plugins: [postcssPlugin([require("tailwindcss")("./tailwind.config.js")])],
     logLevel: "error",
-    incremental: true,
   }
 );
-
-
 
 /**
  * nodejs bundle
@@ -51,7 +46,6 @@ nodejs(
     platform: "node",
     sourcemap: true,
     logLevel: "error",
-    incremental: true,
   }
 );
 
@@ -72,17 +66,15 @@ client(
     platform: "browser",
     sourcemap: true,
     logLevel: "error",
-    incremental: true,
   }
 );
-
 
 /**
  * index file for project
  */
 addDefaultIndex({
   distFolder: "dist_client",
-  publicFolders:[],
+  publicFolders: [],
   entry: "./index.js",
   hbr: true,
   webSocketPort: 8080,

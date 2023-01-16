@@ -23,8 +23,7 @@ single(
     entryPoints: ["./src_client/index.css"],
     outfile: "./dist_client/index.css",
     plugins: [postcssPlugin([require("tailwindcss")("./tailwind.config.js")])],
-    logLevel: "error",
-    incremental: true,
+    logLevel: "error"
   }
 );
 
@@ -44,8 +43,7 @@ client(
     bundle: true,
     platform: "browser",
     sourcemap: true,
-    logLevel: "error",
-    incremental: true,
+    logLevel: "error"
   }
 );
 
@@ -94,7 +92,6 @@ electron(
     plugins: [makeAllPackagesExternalPlugin],
     platform: "node",
     sourcemap: true,
-    logLevel: "error",
-    incremental: true,
+    logLevel: "error"
   }
 );
