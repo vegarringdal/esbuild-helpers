@@ -26,7 +26,6 @@ Atm see config files at root for how to use.
 * `npm run nodejs:events`
   * Shows how to trigger events between the builds
   * Code: `config_nodejs_event.ts`
-
 * `npm run devserver`
   * Shows how run simple dev server (reloads js withour browser reload)
   * Code: `config_devserver.ts`
@@ -44,7 +43,7 @@ You need to have this installed:
 - esbuild
 - typescript
 - postcss (will just warn if missing)
-- minify-html-literals (will just warn if missing)
 - compression (will skip if missing)
+- electron & electron-squirrel-startup (only if you plan to use it)
 
 Have these ass dev dependencies so user can use newer version/not dependant of this
