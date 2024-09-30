@@ -4,7 +4,7 @@ import { nodejsConfig } from "./interfaces";
 
 export async function nodejs(
   config: nodejsConfig | null,
-  esbuildConfig: BuildOptions
+  esbuildConfig: BuildOptions,
 ) {
   builder("NODEJS", config, esbuildConfig);
 }

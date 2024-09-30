@@ -11,7 +11,6 @@ app.use(
   })
 );
 
-
 app.use(
   express.static("./dist_client", {
     etag: false,
