@@ -1,5 +1,5 @@
 import express from "express";
-import { constants } from "zlib";
+const zlib = require('node:zlib');
 import { log } from "./log";
 
 let compression: any;
@@ -19,7 +19,7 @@ export function startDevServer(
     app.use(
       compression({
         threshold: 1,
-        flush: constants.Z_SYNC_FLUSH,
+        flush: zlib.constants.Z_SYNC_FLUSH,
       })
     );
   }

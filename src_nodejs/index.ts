@@ -1,13 +1,13 @@
 import express from "express";
 import compression from "compression";
-import { constants } from "zlib";
+const zlib = require('node:zlib');
 const app = express();
 const port = 80;
 
 app.use(
   compression({
     threshold: 1,
-    flush: constants.Z_SYNC_FLUSH,
+    flush: zlib.constants.Z_SYNC_FLUSH,
   })
 );
 
