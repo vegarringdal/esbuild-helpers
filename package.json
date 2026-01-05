@@ -1,6 +1,6 @@
 {
   "name": "esbuild-helpers",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Simple helper lib to help make js bundles for web, nodejs server and electron",
   "scripts": {
     "rimraf": "./node_modules/rimraf/bin.js",
@@ -22,11 +22,11 @@
     "chokidar": "^3.6.0",
     "fast-glob": "^3.3.2",
     "rimraf": "^6.0.1",
-    "ws": "^8.18.0"
+    "ws": "^8.18.0",
+    "express": "^5.2.1"
   },
   "main": "dist/exported.js",
   "devDependencies": {
-    "express": "^5.2.1",
     "@types/compression": "^1.7.5",
     "@types/express": "^5.0.0",
     "@types/ws": "^8.5.12",
